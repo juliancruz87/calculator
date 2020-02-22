@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity
 {
     private Calculator calculator;
+    private TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -146,6 +147,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 calculator.Calculate();
+                text.setText(calculator.GetResult());
+                calculator.clean();
             }
         });
         Button btndot = findViewById(R.id.clean);
@@ -154,20 +157,25 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 calculator.clean();
+                text.setText("0");
             }
         });
 
+        text = findViewById(R.id.Etiqueta);
+        text.setText("0");
     }
 
     private void OnButtonPressed(String button)
     {
         calculator.addKey(button);
-        calculator.AddNumber (button);
+        calculator.AddNumber(button);
+        text.setText(calculator.GetTextOperation());
     }
 
     private void OnButtonOperatorPressed(String button)
     {
         calculator.addKey(button);
         calculator.addoperator(button);
+        text.setText(calculator.GetTextOperation());
     }
 }

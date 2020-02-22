@@ -6,10 +6,11 @@ import java.util.List;
 public class Calculator
 {
     private List<Integer> values = new ArrayList<>();
-    private String operation = "0";
     private String ops = "";
     private String keys = "";
     private String temporalNumber ="";
+    private int result;
+    private String error ="";
 
     public void Calculate ()
     {
@@ -18,8 +19,8 @@ public class Calculator
 
         if(values.size() > 1)
         {
-            int result = Operate(values, ops, values.get(0), 1);
-            System.out.println(operation+" = "+result);
+            result = Operate(values, ops, values.get(0), 1);
+            System.out.println(keys+" = "+result);
         }
 
         long endTime = System.nanoTime();
@@ -39,11 +40,14 @@ public class Calculator
             case '-':
                 temp = a - b;
                 break;
-            case '*':
+            case 'X':
                 temp = a * b;
                 break;
             case '/':
-                temp = a / b;
+                if(a == 0 || b == 0)
+                    error = "No se puede dividir por cero";
+                else
+                    temp = a / b;
                 break;
         }
 
@@ -75,8 +79,22 @@ public class Calculator
 
     public void clean()
     {
+        error = "";
         ops= "";
         keys="";
         values.clear();
+    }
+
+    public String GetTextOperation()
+    {
+        return keys;
+    }
+
+    public String GetResult()
+    {
+        if(error != "")
+            return error;
+
+        return Integer.toString(result);
     }
 }
