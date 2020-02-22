@@ -9,6 +9,8 @@ public class Calculator
     private List<Integer> values = new ArrayList<>();
     private String operation = "0";
     private String ops = "++++**/-";
+    private String keys = "";
+
 
     public void Calculate ()
     {
@@ -46,5 +48,18 @@ public class Calculator
     public void AddValue (int value)
     {
         values.add(value);
+
     }
-}
+    public void addKey(String key){
+        keys+= key;
+    }
+    public void addoperator (String operator) {
+        ops+= operator;
+    }
+    public void clean(){
+        ops= "";
+        keys="";
+        
+    }
+    }
+
