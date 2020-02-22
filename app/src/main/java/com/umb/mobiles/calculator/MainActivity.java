@@ -10,8 +10,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity
 {
+    private Calculator calculator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -21,6 +25,8 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        calculator = new Calculator();
 
         Button btn1 = findViewById(R.id.one);
         btn1.setOnClickListener(new View.OnClickListener()
@@ -107,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
+                OnButtonOperatorPressed(((Button) v).getText().toString());
             }
         });
         Button btnminus = findViewById(R.id.minus);
@@ -115,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
+                OnButtonOperatorPressed(((Button) v).getText().toString());
             }
         });
         Button btnmultiplication = findViewById(R.id.multiplication);
@@ -123,7 +129,7 @@ public class MainActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
+                OnButtonOperatorPressed(((Button) v).getText().toString());
             }
         });
         Button btndivide = findViewById(R.id.divide);
@@ -131,7 +137,7 @@ public class MainActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
+                OnButtonOperatorPressed(((Button) v).getText().toString());
             }
         });
         Button btnequal = findViewById(R.id.equal);
@@ -139,15 +145,15 @@ public class MainActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
+                calculator.Calculate();
             }
         });
-        Button btndot = findViewById(R.id.dot);
+        Button btndot = findViewById(R.id.clean);
         btndot.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
+                calculator.clean();
             }
         });
 
@@ -155,8 +161,13 @@ public class MainActivity extends AppCompatActivity
 
     private void OnButtonPressed(String button)
     {
-        Calculator calculator = new Calculator();
-        Log.i("Calculator 1", button);
-        calculator.Calculate();
+        calculator.addKey(button);
+        calculator.AddNumber (button);
+    }
+
+    private void OnButtonOperatorPressed(String button)
+    {
+        calculator.addKey(button);
+        calculator.addoperator(button);
     }
 }
