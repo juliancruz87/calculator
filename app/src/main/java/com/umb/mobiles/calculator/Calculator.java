@@ -42,6 +42,9 @@ public class Calculator
             case '*':
                 temp = a * b;
                 break;
+            case '/':
+                temp = a / b;
+                break;
         }
 
         index++;
