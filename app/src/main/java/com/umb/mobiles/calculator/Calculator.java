@@ -13,7 +13,7 @@ public class Calculator
     public void Calculate ()
     {
         long startTime = System.nanoTime();
-        values = Arrays.asList(130,24,36,62,18,2,4,2,5);
+
         if(values.size() > 1)
         {
             int result = Operate(values, ops, values.get(0), 1);
@@ -41,5 +41,10 @@ public class Calculator
 
         index++;
         return index == values.size() ? temp : Operate (values, ops.substring(1), temp,index);
+    }
+
+    public void AddValue (int value)
+    {
+        values.add(value);
     }
 }
