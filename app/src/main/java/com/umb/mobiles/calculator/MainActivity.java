@@ -3,14 +3,11 @@ package com.umb.mobiles.calculator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity
 {

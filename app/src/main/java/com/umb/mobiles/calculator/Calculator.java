@@ -9,7 +9,7 @@ public class Calculator
     private String ops = "";
     private String keys = "";
     private String temporalNumber ="";
-    private int result;
+    private int result = Integer.MIN_VALUE;
     private String error ="";
 
     public void Calculate ()
@@ -62,7 +62,13 @@ public class Calculator
 
     public void AddValue ()
     {
-        values.add(Integer.parseInt(temporalNumber));
+        if(temporalNumber == "" && result != Integer.MIN_VALUE)
+        {
+            values.add(result);
+            keys = result + keys;
+        }
+        else
+            values.add(Integer.parseInt(temporalNumber));
         temporalNumber = "";
     }
 
