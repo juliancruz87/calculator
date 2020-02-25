@@ -1,7 +1,6 @@
 package com.umb.mobiles.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,9 +10,11 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
 {
-    private Calculator calculator;
+    private Calculator calculator = new Calculator();
     private TextView text;
-
+    private int [] buttons = new int []  {  R.id.one, R.id.two, R.id.three, R.id.four, R.id.five, R.id.six,
+                                            R.id.seven, R.id.eight, R.id.nine, R.id.zero, R.id.plus, R.id.minus,
+                                            R.id.multiplication, R.id.divide, R.id.clean, R.id.equal };
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -24,155 +25,45 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        calculator = new Calculator();
-
-        Button btn1 = findViewById(R.id.one);
-        btn1.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn2 = findViewById(R.id.two);
-        btn2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn3 = findViewById(R.id.three);
-        btn3.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn4 = findViewById(R.id.four);
-        btn4.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn5 = findViewById(R.id.five);
-        btn5.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn6 = findViewById(R.id.six);
-        btn6.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn7 = findViewById(R.id.seven);
-        btn7.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn8 = findViewById(R.id.eight);
-        btn8.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn9 = findViewById(R.id.nine);
-        btn9.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btn0 = findViewById(R.id.zero);
-        btn0.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btnplus = findViewById(R.id.plus);
-        btnplus.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonOperatorPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btnminus = findViewById(R.id.minus);
-        btnminus.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonOperatorPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btnmultiplication = findViewById(R.id.multiplication);
-        btnmultiplication.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonOperatorPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btndivide = findViewById(R.id.divide);
-        btndivide.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                OnButtonOperatorPressed(((Button) v).getText().toString());
-            }
-        });
-        Button btnequal = findViewById(R.id.equal);
-        btnequal.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                calculator.Calculate();
-                text.setText(calculator.GetResult());
-                calculator.clean();
-            }
-        });
-        Button btndot = findViewById(R.id.clean);
-        btndot.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                calculator.clean();
-                text.setText("0");
-            }
-        });
-
         text = findViewById(R.id.Etiqueta);
-        text.setText("0");
+
+        for (int i= 0; i < buttons.length; i++)
+        {
+            Button btn = findViewById(buttons[i]);
+            btn.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    OnButtonPressed(((Button) v).getText().toString(), v.getId());
+                }
+            });
+        }
     }
 
-    private void OnButtonPressed(String button)
+    private void OnButtonPressed(String button, int id)
     {
-        calculator.addKey(button);
-        calculator.AddNumber(button);
-        text.setText(calculator.GetTextOperation());
-    }
+        if(id == R.id.equal)
+        {
+            calculator.Calculate();
+            text.setText(calculator.GetResult());
+            calculator.Clean();
+            return;
+        }
+        else if(id == R.id.clean)
+        {
+            calculator.Clean();
+            text.setText("0");
+            return;
+        }
 
-    private void OnButtonOperatorPressed(String button)
-    {
-        calculator.addKey(button);
-        calculator.addoperator(button);
-        text.setText(calculator.GetTextOperation());
+        calculator.keys += button;
+
+        if(id == R.id.plus || id == R.id.minus || id == R.id.multiplication || id == R.id.divide)
+            calculator.AddOperator(button);
+        else
+            calculator.AddNumber(button);
+
+        text.setText(calculator.keys);
     }
 }
